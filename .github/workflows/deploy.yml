@@ -31,21 +31,21 @@ jobs:
           name: productions-files
           path: ./public
 
-deploy:
-  name: Deploy
-  needs: build
-  runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/main'
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-  steps:
-    - name: Download artifacts
-      uses: actions/download-artifacts@v2
-      with:
-        name: productions-files
-        path: ./public
-    
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/action-gh-pages@v3
-      with:
-        gtihub_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifacts@v2
+        with:
+          name: productions-files
+          path: ./public
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/action-gh-pages@v3
+        with:
+          gtihub_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
