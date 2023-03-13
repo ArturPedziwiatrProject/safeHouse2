@@ -33,6 +33,7 @@ jobs:
         uses: actions/upload-artifacts@v2
         with:
           name: productions-files
+          cmd: ls
           path: ./public
 
   deploy:
