@@ -29,28 +29,8 @@ jobs:
         with:
           cmd: build
 
-      - name: Upload production-ready build files
-        uses: actions/upload-artifacts@v2
+      - name: Deploy
+        uses: ArturPedziwiatr/github-pages-deploy-action@v4
         with:
-          name: productions-files
-          cmd: ls
-          path: ./public
-
-  deploy:
-    name: Deploy
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifacts@v2
-        with:
-          name: productions-files
-          path: ./public
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/action-gh-pages@v3
-        with:
-          gtihub_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          folder: public
+          branch: gh-pages
