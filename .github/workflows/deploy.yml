@@ -30,7 +30,7 @@ jobs:
           cmd: build
 
       - name: Deploy
-        uses: ArturPedziwiatr/github-pages-deploy-action@v4
+        uses: ArturPedziwiatrProject/github-pages-deploy-action@v4
         with:
           folder: public
           branch: gh-pages
