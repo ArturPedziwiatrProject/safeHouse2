@@ -1,0 +1,45 @@
+name: deploy
+
+jobs:
+  build:
+  runs-on: ubuntu-latest
+
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.15.0
+        
+    - name: Install dependencies
+      uses: bahmutov/npm-install@v1
+
+    - name: Build project
+      run: npm run Build
+
+    - name: Upload production-ready build files
+      uses: actions/upload-artifacts@v2
+      with:
+        name: productions-files
+        path: ./public
+
+deploy:
+  name: Deploy
+  needs: build
+  runs-on: ubuntu-latest
+  if: github.ref == 'refs/heads/main'
+
+  steps:
+    - name: Download artifacts
+      uses: actions/download-artifacts@v2
+      with:
+        name: productions-files
+        path: ./public
+    
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/action-gh-pages@v3
+      with:
+        gtihub_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public

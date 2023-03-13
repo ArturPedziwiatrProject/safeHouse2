@@ -1,6 +1,5 @@
 const { resolve } = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     plugins: [
@@ -16,8 +15,16 @@ module.exports = {
             {
                 test: /\.css$/i,
                 use: [MiniCssExtractPlugin.loader, "css-loader"],
-            }
-        ]
+            },
+            {
+                test: /\.glsl$/,
+                exclude: /node_modules/,
+                use: [
+                    'raw-loader',
+                    'glslify-loader',
+                ]
+            },
+        ],
     },
     mode: 'development',
     watchOptions: {
