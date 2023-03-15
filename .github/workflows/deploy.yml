@@ -1,4 +1,4 @@
-name: deploy
+name: Deploy
 
 on:
   push:
@@ -10,6 +10,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     concurrency: ci-${{github.ref}}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -19,18 +20,34 @@ jobs:
         with:
           node-version: '14.15.0'
 
-      - name: Run install
-        uses: borales/actions-yarn@v4
+      - name: Run install dependenies and build app
+        uses: borales/actions-yarn@v4.2.0
         with:
-          cmd: install
-          
-      - name: Build production bundle
-        uses: borales/actions-yarn@v4
+          cmd: |
+            install
+            build
+      
+      - name: Upload build files
+        uses: actions/upload-artifact@v2
         with:
-          cmd: build
+          name: production-files
+          path: ./public
+  
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/head/main'
 
-      - name: Deploy
-        uses: ArturPedziwiatrProject/github-pages-deploy-action@v4
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
         with:
-          folder: public
-          branch: gh-pages
+          name: production-files
+          path: ./public
+
+      - name: Deploy to GitHub Pages
+        uses: ArturPedziwiatrProject/github-pages-deploy-action@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
