@@ -20,12 +20,15 @@ jobs:
         with:
           node-version: 16
 
-      - name: Run install dependenies and build app
+      - name: Run install dependenies
         uses: borales/actions-yarn@v4.2.0
         with:
-          cmd: |
-            install
-            build
+          cmd: install
+
+      - name: Build app
+        uses: borales/actions-yarn@v4.2.0
+        with:
+          cmd: build
       
       - name: Upload build files
         uses: actions/upload-artifact@v2
