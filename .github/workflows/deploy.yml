@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build
@@ -21,12 +24,12 @@ jobs:
           node-version: 16
 
       - name: Run install dependenies
-        uses: borales/actions-yarn@v4.2.0
+        uses: borales/actions-yarn@v4
         with:
           cmd: install
 
       - name: Build app
-        uses: borales/actions-yarn@v4.2.0
+        uses: borales/actions-yarn@v4
         with:
           cmd: build
       
@@ -41,10 +44,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
-    permissions:
-      pages: write
-      id-token: write
-
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -53,7 +52,7 @@ jobs:
           path: ./public
 
       - name: Deploy to GitHub Pages
-        uses: ArturPedziwiatrProject/safeHouse2@v1
+        uses: ArturPedziwiatrProject/safeHouse2@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
