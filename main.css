@@ -1,0 +1,13 @@
+/*!***********************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./src/assets/main.css ***!
+  \***********************************************************************/
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#mainView {
+    height: 100vh;
+    width: 100vw;
+    background-color: blue;
+}
