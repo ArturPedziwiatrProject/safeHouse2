@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: write
@@ -32,6 +32,9 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: build
+
+      - name: Copy index.html to public
+        run: cp ./index.html ./public
       
       - name: Upload build files
         uses: actions/upload-artifact@v3
